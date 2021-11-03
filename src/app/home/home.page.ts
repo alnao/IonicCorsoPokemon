@@ -27,7 +27,8 @@ export class HomePage implements OnInit {
     this.loadingC$= await this.presentLoading();//
     await this.loadingC$.present();
     this.pokemon$ = this.service.getPokemon("");
-    this.pokemon$.subscribe(() => {this.loadingC$.dismiss();});
+    this.pokemon$.subscribe(() => {this.loadingC$.dismiss();console.log(this.pokemon$);});
+    this.elencoFavoriti=[];
   }
   async ionViewDidEnter() {//meglio usare ionViewDidEnter, perchè se già inizializzata non verrebbe aggiornata
     this.elencoFavoriti = await this.service.getFavoritesPokemon();
@@ -56,6 +57,7 @@ export class HomePage implements OnInit {
   }
 
   pokIsOnFavorites(pok: IPokemon){
+    if (pok === undefined || pok == null) {return false;}
     return (this.elencoFavoriti.filter(el => el.name===pok.name)).length>0;
   }
 }
